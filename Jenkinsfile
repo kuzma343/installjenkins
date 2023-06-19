@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     stages {
-        stage('Clone repository') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/your/repository.git'
+                checkout scm
             }
         }
         
@@ -17,17 +17,20 @@ pipeline {
         
         stage('Configure Monit') {
             steps {
-                // Additional Monit configuration if needed
-                // For example, creating a configuration file and setting appropriate permissions
-                // sh 'sudo touch /etc/monit/conf.d/myapp.conf'
-                // sh 'sudo chmod 700 /etc/monit/conf.d/myapp.conf'
-                // sh 'sudo echo "check process myapp with pidfile /var/run/myapp.pid" >> /etc/monit/conf.d/myapp.conf'
+                // Тут можна налаштувати Monit конфігурацію
+                // Наприклад, створити файл /etc/monit/conf.d/your_service.conf з власними налаштуваннями
+                
+                sh 'sudo cp /path/to/your_service.conf /etc/monit/conf.d/your_service.conf'
+                sh 'sudo chmod 700 /etc/monit/conf.d/your_service.conf'
+                sh 'sudo chown root:root /etc/monit/conf.d/your_service.conf'
+                
+                sh 'sudo monit reload' // Перезавантаження конфігурації Monit
             }
         }
         
         stage('Start Monit') {
             steps {
-                sh 'sudo service monit start'
+                sh 'sudo monit start all' // Запуск Monit
             }
         }
     }
