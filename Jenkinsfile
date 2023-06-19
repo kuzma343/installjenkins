@@ -2,7 +2,11 @@ pipeline {
     agent any
     
     stages {
-      
+        stage('Clone repository') {
+            steps {
+                git 'https://github.com/your/repository.git'
+            }
+        }
         
         stage('Install Monit') {
             steps {
@@ -13,8 +17,8 @@ pipeline {
         
         stage('Configure Monit') {
             steps {
-                // Додаткова конфігурація Monit, якщо потрібно
-                // Наприклад, створення файлу конфігурації та додавання правильних прав доступу
+                // Additional Monit configuration if needed
+                // For example, creating a configuration file and setting appropriate permissions
                 // sh 'sudo touch /etc/monit/conf.d/myapp.conf'
                 // sh 'sudo chmod 700 /etc/monit/conf.d/myapp.conf'
                 // sh 'sudo echo "check process myapp with pidfile /var/run/myapp.pid" >> /etc/monit/conf.d/myapp.conf'
